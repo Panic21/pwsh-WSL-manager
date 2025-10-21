@@ -1,0 +1,62 @@
+@{
+    # Module Loader File
+    RootModule = 'WSLServiceManager.psm1'
+
+    # Version Number
+    ModuleVersion = '1.0.0'
+
+    # Supported PSEditions
+    CompatiblePSEditions = @('Core', 'Desktop')
+
+    # ID used to uniquely identify this module
+    GUID = 'a7d8e4f1-3b9c-4d2e-8f6a-1c5b7d9e2a4f'
+
+    # Author
+    Author = 'WSL Service Manager'
+
+    # Company
+    CompanyName = 'Unknown'
+
+    # Copyright
+    Copyright = '(c) 2025. All rights reserved.'
+
+    # Module Description
+    Description = 'PowerShell module for managing the Windows Subsystem for Linux (WSL) Service. Provides cmdlets to start, stop, suspend, and resume the LxssManager service.'
+
+    # Minimum PowerShell Version
+    PowerShellVersion = '7.0'
+
+    # Functions to Export
+    FunctionsToExport = @(
+        'Start-WSLService',
+        'Stop-WSLService',
+        'Suspend-WSLService',
+        'Resume-WSLService'
+    )
+
+    # Cmdlets to Export
+    CmdletsToExport = @()
+
+    # Variables to Export
+    VariablesToExport = @()
+
+    # Aliases to Export
+    AliasesToExport = @()
+
+    # Private Data
+    PrivateData = @{
+        PSData = @{
+            Tags = @('WSL', 'Windows', 'Service', 'Management', 'Linux')
+            LicenseUri = ''
+            ProjectUri = ''
+            IconUri = ''
+            ReleaseNotes = 'Initial release with Start, Stop, Suspend, and Resume functionality for WSL Service.'
+        }
+    }
+
+    # HelpInfo URI
+    HelpInfoURI = ''
+
+    # Default Prefix for Commands
+    # DefaultCommandPrefix = ''
+}

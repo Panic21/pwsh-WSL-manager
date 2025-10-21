@@ -1,0 +1,38 @@
+# PowerShell module build artifacts
+*.zip
+*.nupkg
+
+# Debug files
+*.pdb
+
+# Test results
+TestResults/
+*.trx
+coverage.xml
+*.coverage
+
+# VS Code
+.vscode/
+*.code-workspace
+
+# Windows
+Thumbs.db
+Desktop.ini
+$RECYCLE.BIN/
+
+# PowerShell Gallery artifacts
+*.nuspec
+
+# Temporary files
+*.tmp
+*.temp
+~$*
+
+# Logs
+*.log
+
+# IDE files
+.idea/
+*.swp
+*.swo
+*~
