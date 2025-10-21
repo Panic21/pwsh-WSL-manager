@@ -1,6 +1,6 @@
 # WSL Service Manager
 
-A PowerShell 7 module for managing the Windows Subsystem for Linux (WSL) Service (LxssManager).
+A PowerShell 7 module for managing the Windows Subsystem for Linux (WSL) Service.
 
 ## Features
 
@@ -107,9 +107,9 @@ Resume-WSLService
 ### Example 3: Check Status Before and After
 
 ```powershell
-Get-Service LxssManager | Select-Object Name, Status
+Get-Service "WSL Service" | Select-Object Name, Status
 Start-WSLService
-Get-Service LxssManager | Select-Object Name, Status
+Get-Service "WSL Service" | Select-Object Name, Status
 ```
 
 ## Troubleshooting

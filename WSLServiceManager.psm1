@@ -6,10 +6,10 @@
     PowerShell module for managing the WSL Service.
 
 .DESCRIPTION
-    This module provides cmdlets to start, stop, suspend (pause), and resume the WSL Service (LxssManager).
+    This module provides cmdlets to start, stop, suspend (pause), and resume the WSL Service.
 #>
 
-$ServiceName = 'LxssManager'
+$ServiceName = 'WSL Service'
 
 <#
 .SYNOPSIS
