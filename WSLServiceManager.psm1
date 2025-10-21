@@ -9,7 +9,7 @@
     This module provides cmdlets to start, stop, suspend (pause), and resume the WSL Service.
 #>
 
-$ServiceName = 'WSL Service'
+$ServiceName = 'WSLService'
 
 <#
 .SYNOPSIS
@@ -165,10 +165,50 @@ function Resume-WSLService {
     }
 }
 
+<#
+.SYNOPSIS
+    Gets the status of the WSL Service.
+
+.DESCRIPTION
+    Retrieves the current status of the Windows Subsystem for Linux (WSL) service.
+    Returns an object with Name, DisplayName, and Status properties.
+
+.EXAMPLE
+    Get-WSLService
+    Displays the current status of the WSL Service.
+
+.EXAMPLE
+    $service = Get-WSLService
+    if ($service.Status -ne 'Running') { Start-WSLService }
+    Checks if the WSL Service is running and starts it if not.
+
+.NOTES
+    This is a read-only operation and does not require confirmation.
+#>
+function Get-WSLService {
+    [CmdletBinding()]
+    param()
+
+    try {
+        $service = Get-Service -Name $ServiceName -ErrorAction Stop
+        Write-Host "$($service.DisplayName): $($service.Status)" -ForegroundColor Yellow
+        
+        [PSCustomObject]@{
+            Name        = $service.Name
+            DisplayName = $service.DisplayName
+            Status      = $service.Status
+        }
+    }
+    catch {
+        Write-Error "Failed to get WSL Service status: $_"
+    }
+}
+
 # Export module members
 Export-ModuleMember -Function @(
     'Start-WSLService',
     'Stop-WSLService',
     'Suspend-WSLService',
-    'Resume-WSLService'
+    'Resume-WSLService',
+    'Get-WSLService'
 )

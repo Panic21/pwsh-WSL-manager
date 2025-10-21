@@ -4,7 +4,7 @@ This file provides guidance to WARP (warp.dev) when working with code in this re
 
 ## Overview
 
-WSLServiceManager is a PowerShell 7 module that manages the Windows Subsystem for Linux (WSL) Service. It provides four cmdlets: `Start-WSLService`, `Stop-WSLService`, `Suspend-WSLService`, and `Resume-WSLService`. All operations require administrator privileges and include safety features like `-WhatIf` and `-Confirm` support.
+WSLServiceManager is a PowerShell 7 module that manages the Windows Subsystem for Linux (WSL) Service. It provides five cmdlets: `Get-WSLService`, `Start-WSLService`, `Stop-WSLService`, `Suspend-WSLService`, and `Resume-WSLService`. State-changing operations require administrator privileges and include safety features like `-WhatIf` and `-Confirm` support.
 
 ## Common Development Commands
 
@@ -14,6 +14,17 @@ WSLServiceManager is a PowerShell 7 module that manages the Windows Subsystem fo
 Remove-Module WSLServiceManager -ErrorAction SilentlyContinue
 Import-Module (Resolve-Path .\WSLServiceManager.psd1) -Force -Verbose
 Get-Command -Module WSLServiceManager
+```
+
+### Checking Service Status
+```powershell
+# Get current WSL service status
+Get-WSLService
+
+# Use the returned object
+$service = Get-WSLService
+$service.Status
+$service.Name
 ```
 
 ### Safe Testing with -WhatIf
@@ -42,11 +53,14 @@ Invoke-ScriptAnalyzer -Path . -Recurse -Severity Error,Warning -ReportSummary
 
 ### Service Diagnostics
 ```powershell
-# Check service status and capabilities
-Get-Service "WSL Service" | Format-List Name,Status,CanPauseAndContinue,DependentServices,ServicesDependedOn
+# Use module cmdlet to check status
+Get-WSLService
+
+# Check service status and capabilities (using service name)
+Get-Service WSLService | Format-List Name,DisplayName,Status,CanPauseAndContinue,DependentServices,ServicesDependedOn
 
 # Service details via sc.exe
-sc.exe query "WSL Service"
+sc.exe query WSLService
 
 # WSL status and distributions
 wsl.exe --status
@@ -59,19 +73,29 @@ Get-WinEvent -LogName "Microsoft-Windows-Lxss/Operational" -MaxEvents 50 | Forma
 ## High-Level Architecture
 
 ### Module Structure
-- **WSLServiceManager.psd1**: Module manifest defining metadata, exports (`Start-WSLService`, `Stop-WSLService`, `Suspend-WSLService`, `Resume-WSLService`), and PowerShell 7+ requirement
-- **WSLServiceManager.psm1**: Core implementation containing all four cmdlets and explicit export statements
+- **WSLServiceManager.psd1**: Module manifest defining metadata, exports (`Get-WSLService`, `Start-WSLService`, `Stop-WSLService`, `Suspend-WSLService`, `Resume-WSLService`), and PowerShell 7+ requirement
+- **WSLServiceManager.psm1**: Core implementation containing all five cmdlets and explicit export statements
 
 ### Core Service Management Pattern
-All four cmdlets follow a consistent pattern:
 
-1. **Service Resolution**: Use `Get-Service -Name "WSL Service" -ErrorAction Stop` to locate the service
+#### Read-Only Cmdlets (Get-WSLService)
+- **No ShouldProcess**: Read-only cmdlets do not use `[CmdletBinding(SupportsShouldProcess)]`
+- **Service Resolution**: Use `Get-Service -Name $ServiceName -ErrorAction Stop` (where `$ServiceName = 'WSLService'`)
+- **Return Object**: Return a `[PSCustomObject]` with Name, DisplayName, and Status for pipeline use
+- **Interactive Output**: Also `Write-Host` colored status for interactive visibility
+- **Error Handling**: Use try/catch with `Write-Error` for service not found scenarios
+
+#### State-Changing Cmdlets (Start/Stop/Suspend/Resume)
+All state-changing cmdlets follow a consistent pattern:
+
+1. **Service Resolution**: Use `Get-Service -Name $ServiceName -ErrorAction Stop` to locate the service
 2. **Idempotency Check**: Verify current state and exit early with `Write-Verbose` if already in target state
 3. **ShouldProcess Gating**: Wrap state changes in `$PSCmdlet.ShouldProcess($ServiceName, "action")` for `-WhatIf`/`-Confirm` support
 4. **State Transition**: Call appropriate service cmdlet (`Start-Service`, `Stop-Service`, `Suspend-Service`, `Resume-Service`)
 5. **Error Handling**: Use try/catch blocks with `Write-Error` for meaningful error messages
 
 ### WSL Service Interaction
+- **Service Name**: The module uses the service name `WSLService` (not the display name "WSL Service")
 - Uses PowerShell's built-in service cmdlets (backed by .NET ServiceController)
 - **Pause Support**: The module checks service status before suspend/resume operations; not all services support pausing
 - **Impact Warning**: Stopping or pausing the service interrupts running WSL distributions

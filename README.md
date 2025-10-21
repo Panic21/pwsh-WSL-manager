@@ -4,6 +4,7 @@ A PowerShell 7 module for managing the Windows Subsystem for Linux (WSL) Service
 
 ## Features
 
+- **Get-WSLService**: Get the status of the WSL Service
 - **Start-WSLService**: Start the WSL Service
 - **Stop-WSLService**: Stop the WSL Service
 - **Suspend-WSLService**: Pause the WSL Service
@@ -38,7 +39,23 @@ Import-Module .\WSLServiceManager.psd1
 
 ## Usage
 
-**Important**: All commands require administrator privileges. Run PowerShell as Administrator before using these cmdlets.
+**Important**: All commands (except `Get-WSLService`) require administrator privileges. Run PowerShell as Administrator before using these cmdlets.
+
+### Get the WSL Service Status
+
+```powershell
+Get-WSLService
+```
+
+Returns an object with `Name`, `DisplayName`, and `Status` properties:
+
+```powershell
+# Check status and conditionally start
+$service = Get-WSLService
+if ($service.Status -ne 'Running') {
+    Start-WSLService
+}
+```
 
 ### Start the WSL Service
 
@@ -107,9 +124,9 @@ Resume-WSLService
 ### Example 3: Check Status Before and After
 
 ```powershell
-Get-Service "WSL Service" | Select-Object Name, Status
+Get-WSLService
 Start-WSLService
-Get-Service "WSL Service" | Select-Object Name, Status
+Get-WSLService
 ```
 
 ## Troubleshooting

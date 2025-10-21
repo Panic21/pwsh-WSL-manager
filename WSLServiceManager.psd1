@@ -3,7 +3,7 @@
     RootModule = 'WSLServiceManager.psm1'
 
     # Version Number
-    ModuleVersion = '1.0.0'
+    ModuleVersion = '1.1.0'
 
     # Supported PSEditions
     CompatiblePSEditions = @('Core', 'Desktop')
@@ -31,7 +31,8 @@
         'Start-WSLService',
         'Stop-WSLService',
         'Suspend-WSLService',
-        'Resume-WSLService'
+        'Resume-WSLService',
+        'Get-WSLService'
     )
 
     # Cmdlets to Export
@@ -50,7 +51,7 @@
             LicenseUri = ''
             ProjectUri = ''
             IconUri = ''
-            ReleaseNotes = 'Initial release with Start, Stop, Suspend, and Resume functionality for WSL Service.'
+            ReleaseNotes = 'v1.1.0: Added Get-WSLService cmdlet to query service status. Fixed service name from "WSL Service" string to "WSLService" service name.'
         }
     }
 
