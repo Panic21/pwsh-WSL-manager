@@ -24,7 +24,7 @@
     Description = 'PowerShell module for managing the Windows Subsystem for Linux (WSL) Service. Provides cmdlets to start, stop, suspend, and resume the WSL Service.'
 
     # Minimum PowerShell Version
-    PowerShellVersion = '7.0'
+    PowerShellVersion = '6.0'
 
     # Functions to Export
     FunctionsToExport = @(
