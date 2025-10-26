@@ -15,7 +15,7 @@
     Author = 'WSL Service Manager'
 
     # Company
-    CompanyName = 'Unknown'
+    CompanyName = 'Ghostly International'
 
     # Copyright
     Copyright = '(c) 2025. All rights reserved.'
@@ -32,7 +32,8 @@
         'Stop-WSLService',
         'Suspend-WSLService',
         'Resume-WSLService',
-        'Get-WSLService'
+        'Get-WSLService',
+        'Enter-Bios'
     )
 
     # Cmdlets to Export
@@ -48,15 +49,17 @@
     PrivateData = @{
         PSData = @{
             Tags = @('WSL', 'Windows', 'Service', 'Management', 'Linux')
-            LicenseUri = ''
-            ProjectUri = ''
+            LicenseUri = 'https://github.com/Panic21/pwsh-WSL-manager/blob/main/LICENSE'
+            ProjectUri = 'https://github.com/Panic21/pwsh-WSL-manager'
             IconUri = ''
-            ReleaseNotes = 'v1.1.0: Added Get-WSLService cmdlet to query service status. Fixed service name from "WSL Service" string to "WSLService" service name.'
+            ReleaseNotes = 'v1.1.1: Added Enter-Bios cmdlet to make access to BIOS simple'
+
+
         }
     }
 
     # HelpInfo URI
-    HelpInfoURI = ''
+    HelpInfoURI = 'https://github.com/Panic21/pwsh-WSL-manager/blob/main/README.md'
 
     # Default Prefix for Commands
     # DefaultCommandPrefix = ''

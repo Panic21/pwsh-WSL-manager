@@ -204,11 +204,26 @@ function Get-WSLService {
     }
 }
 
+function Enter-Bios {
+    [CmdletBinding(SupportsShouldProcess)]
+    param ()
+
+    try {
+        Write-Output "Restarting computer to BIOS/UEFI..."
+        Restart-Computer -Firmware -Force -Confirm
+    }
+    catch {
+        Write-Error "Failed to initalize Reboot to BIOS: $_"
+    }
+    
+}
+
 # Export module members
 Export-ModuleMember -Function @(
     'Start-WSLService',
     'Stop-WSLService',
     'Suspend-WSLService',
     'Resume-WSLService',
-    'Get-WSLService'
+    'Get-WSLService',
+    'Enter-Bios'
 )
